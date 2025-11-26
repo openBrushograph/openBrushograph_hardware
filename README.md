@@ -1,6 +1,6 @@
 # openBrushograph
 ![openBrushograph](docs/brushograph_wide2.jpg)
-A simple, open source and DIY x-y gantry and z-mechanism for making a brush painting robot
+A simple, open source and DIY x-y gantry and z-mechanism for making a brush painting robot. Formerly know as Brušograf...
 
 ## Quick links
 - hardware/: printable parts and sources
