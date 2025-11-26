@@ -29,6 +29,11 @@ See details and tips on the wiki: https://wiki.sgmk-ssam.ch/wiki/Brushograph#How
 More context and legacy designs: https://wiki.sgmk-ssam.ch/wiki/Brushograph#Printing_and_assembling_the_Brushograph
 
 ## Related links and credits
+### Credits
+General openBrushograph concept and artistic director, Dominik Mahnic: https://app.assembla.com/spaces/dominik-mahnic/wiki
+X–Y: FreeCAD version designed by Stahl: https://github.com/stahlnow
+Z: OpenSCAD version designed by dusjagr: https://github.com/dusjagr
+
 ### Where the inspirations came from
 - Z-mechanism inspiration (Thingiverse): https://www.thingiverse.com/thing:7050508
 - Earlier mini plotter references:
@@ -36,13 +41,7 @@ More context and legacy designs: https://wiki.sgmk-ssam.ch/wiki/Brushograph#Prin
   - https://www.thingiverse.com/thing:4607077
   - https://www.thingiverse.com/thing:4796222
   - https://www.thingiverse.com/thing:5719788
-
-### Credits
-General openBrushograph concept and artistic director, Dominik Mahnic: https://app.assembla.com/spaces/dominik-mahnic/wiki
-X–Y: FreeCAD version designed by Stahl: https://github.com/stahlnow
-Z: OpenSCAD version designed by dusjagr: https://github.com/dusjagr
  
-
 ## License
 - Hardware: CERN-OHL-S-2.0 (see LICENSE and LICENSES/)
 - Documentation: CC BY-SA 4.0
