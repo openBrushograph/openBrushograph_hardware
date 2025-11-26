@@ -1,0 +1,66 @@
+name	value / alias	notes
+Be wise and play slowly...
+pitch_diameter	14	Diameter in the center of the teeth
+pinion_num_teeth	11
+module	1.27273	pitch_diameter / pinion_num_teeth
+
+rail_width	32
+rail_base_height	3.6
+rail_rack_height	5
+rail_cover_height	1
+
+filet_rail_outer	3
+filet_rail_inner	1.5
+
+motor_base_height	13.5
+motor_base_width	10
+
+Screws & Holes
+M3_hole_diameter_3d_printing	2.6	Self-threading hole for M3 screw into PLA
+head_M3_slim_diameter	6.5
+head_M3_slim_depth	1.8
+hole_diameter_woodscrew	3.2
+head_diameter_woodscrew	7.3
+dead_depth_woodscrew	2.2
+
+
+Y-Axes
+y_motor_x_offset	3	vertical match rail: ((rail_width - motor_base_width) / 2) - 8
+y_motor_y_offset	8
+
+y_rail_length	200
+y_rack_length	183	change rack length, exact length is calculated, see next two rows below.
+
+y_rack_carriage_z_pitch	2.5
+y_rack_carriage_rail_fit	0.3	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
+
+X-Axes
+x_motor_x_offset	3
+x_motor_y_offset	15
+
+x_rail_length	205
+x_rack_length	183
+
+x_rack_carriage_z_pitch	5
+x_rack_carriage_motor_holder_width	15	Holds the Z motor. 
+
+Endstop
+x_endstop_base_height	2	to adjust the height of the end stop
+x_endstop_extension	16
+bearing_diameter	24
+bearing_hole	4.8
+
+Calculated
+y_rack_num_teeth	46	rounded based on rack_length / pi / module
+y_rack_length_calculated	183.926	the *exact* calculated length based on num teeth
+x_rack_carriage_rail_fit	0.3	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
+x_rack_num_teeth	46
+x_rack_length_calculated	183.926
+
+rack_carriage_length	32	ideally matches rail_width
+rack_carriage_mounting_distance	16
+
+motor_mounting_distance	35	fixed by Motor model 28BYJ-48 – 5V
+
+pinion_height	5	usually same as rack_height
+addendum_diameter	16.5455	the outside diameter (pitch_diameter + 2 * module)

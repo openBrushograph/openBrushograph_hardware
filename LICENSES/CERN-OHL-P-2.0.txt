@@ -1,0 +1,9 @@
+CERN Open Hardware Licence Version 2 - Permissive (CERN-OHL-P-2.0)
+
+Full text: https://ohwr.org/cern_ohl_p_v2.txt
+
+Summary (non-legal):
+- Allows use, modification, and distribution with minimal obligations.
+- Must retain notices and provide attribution and license copy.
+
+This file is an informational pointer. For the complete legal terms, follow the link above.

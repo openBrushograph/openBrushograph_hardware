@@ -1,0 +1,10 @@
+CERN Open Hardware Licence Version 2 - Strongly Reciprocal (CERN-OHL-S-2.0)
+
+Full text: https://ohwr.org/cern_ohl_s_v2.txt
+
+Summary (non-legal):
+- You may use, study, modify, make and distribute the licensed material.
+- If you distribute products or modified sources, you must make the complete corresponding source available under CERN-OHL-S-2.0.
+- Must retain notices and provide attribution and license copy.
+
+This file is an informational pointer. For the complete legal terms, follow the link above.

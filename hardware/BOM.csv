@@ -1,0 +1,18 @@
+Assembly,Part,Qty,Notes
+X,openBrushograph_x_rail_part.stl,1,Print
+X,openBrushograph_x_rack_part.stl,1,Print; higher infill recommended
+X,openBrushograph_x_pinion_part.stl,1,Print or use off-the-shelf gear
+X,openBrushograph_x_endstop_part.stl,1,Print
+Y,openBrushograph_y_rail_part.stl,1,Print
+Y,openBrushograph_y_rack_part.stl,1,Print; higher infill recommended
+Y,openBrushograph_y_pinion_part.stl,1,Print or use off-the-shelf gear
+Z,openBrushograph_rail_Z-mechanism.stl,1,Print
+Z,openBrushograph_rack_Z-mechanism.stl,1,Print
+Z,openBrushograph_handWheel.stl,1,Optional (if manual Z)
+Z,openBrushograph_penHolder_Insert_6.5.stl,1,Variant; choose 5/6.5/8 mm
+Fasteners,M3x12,10,Estimate; to verify
+Fasteners,M3x20,8,Estimate; to verify
+Fasteners,M3 nuts,12,Estimate; to verify
+Fasteners,M4x??,4,If applicable; to verify
+Motors
+
