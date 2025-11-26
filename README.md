@@ -1,4 +1,5 @@
 # openBrushograph
+![openBrushograph](docs/brushograph_wide2.jpg)
 A simple, open source and DIY x-y gantry and z-mechanism for making a brush painting robot
 
 ## Quick links
