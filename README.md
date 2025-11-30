@@ -1,5 +1,5 @@
 # openBrushograph
-![openBrushograph](docs/brushograph_wide2.jpg)
+![openBrushograph](docs/openBrushograph_flyer.jpg)
 A simple, open source and DIY x-y gantry and z-mechanism for making a brush painting robot. Formerly know as Brušograf...
 
 ## Quick links
@@ -12,6 +12,8 @@ openBrushograph is a small CNC-style plotter for brushes and pens. The X–Y gan
 
 Full background, tutorials and history live on the SGMK wiki:
 https://wiki.sgmk-ssam.ch/wiki/Brushograph
+
+![openBrushograph](docs/brushograph_closeup.gif)
 
 ## Setup options (controllers/firmware)
 - FluidNC (ESP32 with WebUI): https://installer.fluidnc.com/
