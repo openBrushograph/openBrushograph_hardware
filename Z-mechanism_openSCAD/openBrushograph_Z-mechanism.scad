@@ -22,7 +22,7 @@ module Z_rackpen(){
   translate([0,0,10]) difference(){
     color("fuchsia") translate([0,tight-0.2,15]) Z_rack ();
         translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_screwhole, center=false); // penholder-Holes
-    //translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_insert, center=false); // bigger hole for insert, uncomment if needed
+    translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_insert, center=false); // bigger hole for insert, uncomment if needed
     translate([13,-6.68+tight,8.8]) cube([10,3.1,12], center = true); 
     translate([13.0,-6.68+tight,50]) cube([1.8,18.1,12], center = true); 
     translate([13.8,-6.68+tight,45]) cube([2.0,18.1,2], center = true); 
