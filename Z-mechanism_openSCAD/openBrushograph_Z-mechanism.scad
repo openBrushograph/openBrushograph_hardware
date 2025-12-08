@@ -10,8 +10,8 @@ $fn = 96;
 //color("DarkSlateGray") translate([-25,8,9.6]) rotate([90,0,90]) import("StepMotorModelScaled.stl");
 
 //Z_rail ();
-//Z_gearwheel ();
-Z_rackpen ();
+Z_gearwheel ();
+//Z_rackpen ();
 
 //linear_extrude(32, center=true, scale=1) polygon(points=[[0,0],[2,2],[8,2],[10,0]]);
 
@@ -21,7 +21,7 @@ Z_rackpen ();
 module Z_rackpen(){
   translate([0,0,10]) difference(){
     color("fuchsia") translate([0,tight-0.2,15]) Z_rack ();
-        translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_screwhole, center=false); // penholder-Holes
+    #translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_screwhole, center=false); // penholder-Holes
     translate([11.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_insert, center=false); // bigger hole for insert, uncomment if needed
     translate([13,-6.68+tight,8.8]) cube([10,3.1,12], center = true); 
     translate([13.0,-6.68+tight,50]) cube([1.8,18.1,12], center = true); 
@@ -53,6 +53,7 @@ M3_hole = 3.5; // loose to push screw through it
 M3_screwhead = 5.8; // lower the screwhead into the material
 M4_screwhole = 3.9; // tight to screw into it
 brushHole = 6.5;
+Z_luft = 0.1; // increase size of shaft hole for z-wheel
 
 module brushInsert(){
     difference(){
@@ -150,7 +151,7 @@ translate([14,8,0]) rotate([0,-90,0]) mirror([1,0,0]) difference(){
     stirnrad (modul=1, zahnzahl=12, breite=rackWidth, bohrung=0, eingriffswinkel=25, schraegungswinkel=tooth_angle, optimiert=true);
     }
 translate([-2,8,0]) rotate([0,90,0]) difference(){
-    cylinder(10, d=8, center=false);
+    cylinder(10, d=9, center=false);
     shaft ();
     }
 }
@@ -166,9 +167,9 @@ color("DarkSlateGray") translate([5,14.5,-36]) rotate([0,0,90]) import("StepMoto
 module shaft (){
 $fn=96;
   difference(){
-    cylinder(h= 10, d=5, center= false);
-    translate([-5,1.5,-1]) cube([10,10, 20]);
-    translate([-5,-11.5,-1]) cube([10,10, 20]);
+    cylinder(h= 10, d=5+2*Z_luft, center= false);
+    translate([-5,1.5+Z_luft,-1]) cube([10,10, 20]);
+    translate([-5,-11.5-Z_luft,-1]) cube([10,10, 20]);
     }
 }
 
