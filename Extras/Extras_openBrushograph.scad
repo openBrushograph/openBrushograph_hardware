@@ -15,8 +15,9 @@ module all(){
      }
      translate([50,10,9]) cube([50,50,20]);
  }
-    */
     
+    
+    /*
 
 // Petri dish holders 4 x
 translate([0,-120,0]) difference(){
@@ -40,12 +41,12 @@ translate([0,-120,0]) difference(){
     translate([44,108,5.6]) rotate([0,0,90]) linear_extrude(height = 2) text("C 2", font = "Liberation Sans:style=Bold", size = 4);
     translate([44,154,5.6]) rotate([0,0,90]) linear_extrude(height = 2) text("C 3", font = "Liberation Sans:style=Bold", size = 4);
 }
+*/
 
-/*
 // Petri dish Cover
 difference(){
 minkowski(){
-translate([-8,-127,3]) cube([65, 194, 7], center=false);
+translate([-3,-126,3]) cube([52, 192, 7], center=false);
     $fn=30;
         sphere(r=2);
 }
@@ -54,14 +55,14 @@ translate([-12,-130,-3]) cube([80, 200, 6], center=false);
 translate([1,-120,0]) difference(){
     union(){
         minkowski(){
-        color("red") translate([-4,0,0]) cube([50+4, 180, 6], center=false);
+        color("red") translate([2,0,0]) cube([40, 180, 5.5], center=false);
         $fn=30;
         sphere(r=6);
         }
     }
-    translate([-4,-4,-4]) cube([60, 190, 6], center=false);
+    translate([-4,-4,-4]) cube([60, 190, 5], center=false);
 
     }
   }
-*/
+
 }
