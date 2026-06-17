@@ -10,28 +10,29 @@ $fn = 96;
 //color("DarkSlateGray") translate([-25,8,9.6]) rotate([90,0,90]) import("StepMotorModelScaled.stl");
 
 //Z_rail ();
-Z_gearwheel ();
-//Z_rackpen ();
+//Z_gearwheel ();
+//Z_rackpen (M3_insert); // M3_screwhole, M3_insert
+
+//translate([25.5,-6.8+tight,18.5]) penHolder();
+//translate([25.5,-6.8+tight,18.5]) brushInsert(6.5);
+handWheel();
 
 //linear_extrude(32, center=true, scale=1) polygon(points=[[0,0],[2,2],[8,2],[10,0]]);
 
 
 //color("fuchsia") translate([0,tight-0.2,15]) Z_rack ();
 // Z-rack with mounatble penHolder
-module Z_rackpen(){
+module Z_rackpen(lochli){
   translate([0,0,10]) difference(){
     color("fuchsia") translate([0,tight-0.2,15]) Z_rack ();
-    #translate([dist+5.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_screwhole, center=false); // penholder-Holes
-    translate([dist+5.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=M3_insert, center=false); // bigger hole for insert, uncomment if needed
+    #translate([dist+5.5,0.2,9.2]) rotate([90,0,0]) cylinder(21, d=lochli, center=false); // bigger hole for insert, uncomment if needed
     translate([dist+6,-6.68+tight,8.8]) cube([10,3.1,12.4], center = true); 
     translate([dist+6,-6.68+tight,50]) cube([1.8,18.1,12], center = true); 
     translate([dist+6.8,-6.68+tight,45]) cube([2.0,18.1,2], center = true); 
   }
 }
 
-//translate([25.5,-6.8+tight,18.5]) penHolder();
-//translate([25.5,-6.8+tight,18.5]) brushInsert();
-// handWheel();
+
 
 // general shape of mechanism
 round_edge = 4; // dont go more than 5
@@ -46,44 +47,44 @@ tooth_size = 1; // modul = Height of the tooth tip above the pitch line
 rackWidth = 8; // width of rack with teeth
 rackDepth= 6; // depth of rack with teeth (some mistake when this is not 6)
 
+// Pen Holder
+pen_diam = 12;
+
 // Holes and screws
 M3_screwhole = 2.8; // tight to screw into it
 M3_insert = 4.1;
 M3_hole = 3.5; // loose to push screw through it
 M3_screwhead = 5.8; // lower the screwhead into the material
 M4_screwhole = 3.9; // tight to screw into it
-brushHole = 6.5;
 Z_luft = 0.1; // increase size of shaft hole for z-wheel
 
-module brushInsert(){
+module brushInsert(brushHole){
     difference(){
-      cylinder(h = 13, d = 10.4, center = true);
-      #cylinder(h = 22, d = brushHole, center = true);
+        union(){
+            cylinder(h = 13, d = pen_diam-0.25, center = true);
+            rotate([0,0,45]) translate([0,5.45,0]) cylinder(h = 13, d =1.8, center = true);
+            rotate([0,0,45]) translate([5.45,0,0]) cylinder(h = 13, d =1.8, center = true);
+        }
+      cylinder(h = 22, d = brushHole, center = true);
       translate([0,-0,0]) rotate([90,0,0]) cylinder(14, d=4, center=false); // penholder-Holes
     }
 }
-
-module handWheel() difference(){
-    minkowski(){
-    stirnrad (modul=2, zahnzahl=8, breite=3, bohrung=3.8, eingriffswinkel=30, schraegungswinkel=tooth_angle, optimiert=true);
-         $fn=30;
-            sphere(d=1); 
-    }
-    translate([0,-0,-2]) cylinder(14, d=3.7, center=false); // penholder-Holes
-    }
 
 module penHolder(){
 
     difference(){
         minkowski(){
         union(){            
-            cylinder(h = 11, d =12, center = true);
+            cylinder(h = 11, d =pen_diam+1, center = true);
             translate([0,-7,0]) rotate([90,0,0]) cylinder(h = 3, d =8, center = true);
           }
             $fn=30;
             sphere(d=2);  
         }
-        cylinder(h = 23, d =11, center = true);
+        cylinder(h = 23, d =pen_diam, center = true);
+        rotate([0,0,45]) translate([0,5.5,0]) cylinder(h = 23, d =2, center = true);
+        rotate([0,0,45]) translate([5.5,0,0]) cylinder(h = 23, d =2, center = true);
+
         translate([0,-2,0]) rotate([90,0,0]) cylinder(20, d=3.8, center=false); // penholder-Holes
     }
 
@@ -91,10 +92,31 @@ module penHolder(){
     difference(){
         union(){
             translate([-11.5,0,-0.8]) cube([12,3,11.3], center = true);
-            translate([-14,-3,0]) rotate([90,0,0]) cylinder(h = 3, d =7, center = true);
+            translate([-14,-2.5,0]) rotate([90,0,0]) cylinder(h = 2.4, d =7, center = true);
         }
-    translate([-14,10,0]) rotate([90,0,0]) cylinder(20, d=2.9, center=false); // penholder-Holes
+    translate([-14,10,0]) rotate([90,0,0]) cylinder(20, d=2.9, center=false); 
+        cylinder(h = 23, d =pen_diam, center = true);
+        // penholder-Holes
     
+    }
+}
+
+module handWheel() {
+difference(){
+    minkowski(){
+        union(){
+       cylinder(h = 1.5, d = 17, center = true);   
+         
+        }
+            sphere(d=1.5); 
+    }
+    translate([0,-0,-2]) cylinder(14, d=3.7, center=false); // penholder-Holes
+    }
+    for (a =[0:45:360]){
+        minkowski(){    
+    rotate([0,0,a]) translate([0,-8,0]) cylinder(h = 3, d = 5, center = true); 
+            sphere(d=0);
+        }
     }
 }
 
