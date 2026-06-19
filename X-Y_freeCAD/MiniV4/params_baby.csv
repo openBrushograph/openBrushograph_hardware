@@ -12,11 +12,11 @@ rail_cover_height	1
 filet_rail_outer	3
 filet_rail_inner	2
 
-motor_base_height	14
+motor_base_height	13.5
 motor_base_width	8
 
 Screws & Holes
-M3_hole_diameter_3d_printing	2.6	Self-threading hole for M3 screw into PLA
+M3_hole_diameter_3d_printing	4.1	Self-threading hole for M3 screw into PLA 2.6, for insert 4.1
 head_M3_slim_diameter	6.5
 head_M3_slim_depth	1.8
 hole_diameter_woodscrew	3.2
@@ -28,11 +28,11 @@ Y-Axes
 y_motor_x_offset	1.5	vertical match rail: ((rail_width - motor_base_width) / 2) - 8
 y_motor_y_offset	8
 
-y_rail_length	113	changed to rependency on y_rack
+y_rail_length	113
 y_rack_length	90	change rack length, exact length is calculated, see next two rows below.
 
 y_rack_carriage_z_pitch	2
-y_rack_carriage_rail_fit	0.3	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
+y_rack_carriage_rail_fit	0.1	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
 
 X-Axes
 x_motor_x_offset	1.5
@@ -47,13 +47,13 @@ x_rack_carriage_motor_holder_width	15	Holds the Z motor.
 Endstop
 x_endstop_base_height	2	to adjust the height of the end stop
 x_endstop_extension	0.001
-bearing_diameter	24
+bearing_diameter	24	this can be adjusting the height of the endstop
 bearing_hole	4.8
 
 Calculated
 y_rack_num_teeth	29	rounded based on rack_length / pi / module
 y_rack_length_calculated	91.1062	the *exact* calculated length based on num teeth
-x_rack_carriage_rail_fit	0.3	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
+x_rack_carriage_rail_fit	0.1	shrink carriage to fit the rail to compensate thermal expansion of 3d printing. set to 0 if not needed.
 x_rack_num_teeth	39
 x_rack_length_calculated	122.522
 
