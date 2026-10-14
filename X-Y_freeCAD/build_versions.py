@@ -232,7 +232,17 @@ def export_variant(doc, params_sheet, switcher_val, variant_name, base_file, m3_
         doc.recompute(None, True, True)
         doc.recompute()
     prog1.finish()
-    
+
+    # A feature that fails to recompute (e.g. a fillet whose edge reference no longer
+    # resolves at this variant's size) leaves its body Touched, still holding the
+    # previous variant's shape, and Mesh.export writes that stale shape regardless.
+    failed = [obj for obj in doc.Objects if "Invalid" in obj.State]
+    if failed:
+        print(f"{RED}{BOLD}✗ {variant_name} did not recompute cleanly, nothing exported:{RESET}")
+        for obj in failed:
+            print(f"{RED}  - {obj.Label}: {obj.getStatusString()}{RESET}")
+        return None
+
     doc_name = os.path.splitext(os.path.basename(base_file))[0]
     out_dir = os.path.join("STLs", f"{doc_name}_{variant_name}_M3_{m3_hole_str}mm")
     if not os.path.exists(out_dir):
@@ -275,7 +285,20 @@ def main():
     with silence_freecad():
         doc = FreeCAD.open(base_file)
     prog0.finish()
-    
+
+    # Python-backed features (the gears and racks from the Gears add-on) lose their
+    # Proxy when their add-on can't be imported. They then never recompute and keep
+    # the shape saved in the file, so every variant gets the saved variant's teeth.
+    broken = [obj for obj in doc.Objects if "Proxy" in obj.PropertiesList and obj.Proxy is None]
+    if broken:
+        print(f"{RED}{BOLD}These objects can't be recomputed, their add-on failed to load:{RESET}")
+        for obj in broken:
+            print(f"{RED}  - {obj.Label} ({obj.TypeId}){RESET}")
+        print(f"{YELLOW}The gears and racks need the 'Gears' workbench (freecad.gears).")
+        print(f"Install it with FreeCAD's Addon Manager, then run this again.{RESET}")
+        sys.stdout.flush()
+        os._exit(1)
+
     params_sheet = None
     for obj in doc.Objects:
         if obj.isDerivedFrom("Spreadsheet::Sheet") and ("param" in obj.Name.lower() or "param" in obj.Label.lower()):
@@ -367,13 +390,18 @@ def main():
                     
             if is_all:
                 print(f"\n{MAGENTA}Building ALL variants...{RESET}")
-                for val, name in variants:
-                    export_variant(doc, params_sheet, val, name, base_file, m3_hole)
-                print(f"\n{GREEN}{BOLD}✓ All builds complete!{RESET}")
+                failed = [name for val, name in variants
+                          if export_variant(doc, params_sheet, val, name, base_file, m3_hole) is None]
+                if failed:
+                    print(f"\n{RED}{BOLD}✗ Failed: {', '.join(failed)}{RESET}")
+                else:
+                    print(f"\n{GREEN}{BOLD}✓ All builds complete!{RESET}")
                 break
             else:
-                export_variant(doc, params_sheet, matched[0], matched[1], base_file, m3_hole)
-                print(f"\n{GREEN}{BOLD}✓ Build complete!{RESET}")
+                if export_variant(doc, params_sheet, matched[0], matched[1], base_file, m3_hole) is None:
+                    print(f"\n{RED}{BOLD}✗ Build failed!{RESET}")
+                else:
+                    print(f"\n{GREEN}{BOLD}✓ Build complete!{RESET}")
                 break
         else:
             print(f"{RED}Invalid input. Please enter a valid number or 'A'.{RESET}")
@@ -383,6 +411,7 @@ def main():
         
     # Brutally terminate the process at the OS level so FreeCAD doesn't 
     # run its C++ teardown sequence and dump thread definition spam at the very end
+    sys.stdout.flush()
     os._exit(0)
 
 main()
