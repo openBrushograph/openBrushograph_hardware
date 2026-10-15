@@ -9,7 +9,7 @@ $fn = 30;
 
 /* [Render Selection] */
 // Which part to display?
-part_to_render = "assembly"; // [assembly:Full Assembly, core:Core Assembly (Rail/Rack/Gear), rail:Z Rail, gearwheel:Z Gearwheel, rackpen:Z Rackpen, pen_holder:Pen Holder, brush_insert:Brush Insert, hand_wheel:Hand Wheel]
+part_to_render = "rail"; // [assembly:Full Assembly, core:Core Assembly (Rail/Rack/Gear), rail:Z Rail, gearwheel:Z Gearwheel, rackpen:Z Rackpen, pen_holder:Pen Holder, brush_insert:Brush Insert, hand_wheel:Hand Wheel]
 // Resolution of rounded edges in Preview mode (F5)
 preview_fn = 12; // [4:2:32]
 // Move the rack up and down in the assembly view to check collisions
@@ -19,7 +19,7 @@ assembly_z_travel = -9; // [-30:0.5:20]
 // Diameter of the spherical tool used to round corners (don't exceed 5)
 round_edge = 4;
 // Extra clearance added to the rail's guide channel to let the rack slide freely
-slide_tol = 0.3;
+slide_tol = 0.2;
 // Adjusts the gear mesh depth by moving the rack closer to the gearwheel (increase if gearwheel is smaller)
 tight = 2.4;
 // Baseline X-axis offset for the rack's internal geometry
@@ -28,6 +28,10 @@ dist = 2.8;
 z_travel_range = 18; // [10:0.5:50]
 // Include cutouts for Rubber Holder on the Z Rail
 include_rubber_holder = false;
+// Radius of round strengthening fillet between motor bar and vertical spine
+motor_mount_fillet_radius = 12; // [0:0.5:16]
+// Radius of round strengthening fillet underneath motor bar
+motor_mount_bottom_fillet_radius = 5; // [0:0.5:8]
 
 /* [Gears and Wheels] */
 // How much of the available travel space to fill with teeth
@@ -75,6 +79,9 @@ export_brush_hole = 0;
 insert_depth = 10;
 // Starting Y position of the insert hole (controls how far out the front it starts)
 insert_start_y = 1;
+
+// X of the gearwheel's outer face; the gear extends rackWidth from it toward the motor
+gear_x = 10.5;
 
 // Uncomment if you have the StepMotor STL
 // color("DarkSlateGray") translate([-25,8,9.6]) rotate([90,0,90]) import("StepMotorModelScaled.stl");
@@ -190,6 +197,40 @@ module Z_rail() {
             translate([2, -9, -12 + 2]) cube([20, 50, 30]);
           }
           translate([-3, 8, 8]) cube([6 - round_edge, 46 - round_edge, 12 - round_edge], center=true); // Balken
+          // Round strengthening fillet between motor bar (Balken) and vertical spine (Vertikal)
+          if (motor_mount_fillet_radius > 0) {
+            fillet_z = 14 - round_edge / 2;
+            fillet_y = -5 - round_edge / 2;
+            fillet_overlap = 2;
+            translate([-3, 0, 0]) rotate([0, -90, 0])
+              linear_extrude(height = 6 - round_edge, center = true)
+                difference() {
+                  translate([fillet_z - fillet_overlap, fillet_y - fillet_overlap])
+                    square([motor_mount_fillet_radius + fillet_overlap, motor_mount_fillet_radius + fillet_overlap]);
+                  translate([fillet_z + motor_mount_fillet_radius, fillet_y + motor_mount_fillet_radius])
+                    circle(r = motor_mount_fillet_radius, $fn = 40);
+                }
+          }
+          // Round strengthening fillet underneath motor bar merged into the rail guide block
+          if (motor_mount_bottom_fillet_radius > 0) {
+            b_fillet_z = 2 + round_edge / 2;
+            b_fillet_y = -5 - round_edge / 2;
+            b_fillet_overlap = 2;
+            R_bot = motor_mount_bottom_fillet_radius;
+
+            // Spans from motor face (X = -6) across X = 0 and merges into the rail block (X = 1.5)
+            x0 = -6 + round_edge / 2;
+            x1 = 1.5 - round_edge / 2;
+
+            translate([(x0 + x1) / 2, 0, 0]) rotate([0, -90, 0])
+              linear_extrude(height = x1 - x0, center = true)
+                difference() {
+                  translate([b_fillet_z - R_bot, b_fillet_y - b_fillet_overlap])
+                    square([R_bot + b_fillet_overlap, R_bot + b_fillet_overlap + 4]);
+                  translate([b_fillet_z - R_bot, b_fillet_y + R_bot + 4])
+                    circle(r = R_bot, $fn = 40);
+                }
+          }
           difference() {
             translate([8, -4, 20 + ext_z / 2]) cube([16 - round_edge, 22 - round_edge, 62 - round_edge + ext_z], center=true); // Z-Rail
             translate([10, 7.0, 36.5 + ext_z / 2]) cube([28.0, 10.1, 30 + ext_z], center=true);
@@ -256,7 +297,7 @@ module Z_rack() {
 
 module Z_gearwheel() {
   // Stirnrad 
-  translate([10.5, 8, 0]) rotate([0, -90, 0]) mirror([1, 0, 0]) difference() {
+  translate([gear_x, 8, 0]) rotate([0, -90, 0]) mirror([1, 0, 0]) difference() {
           stirnrad(modul=1, zahnzahl=12, breite=rackWidth, bohrung=0, eingriffswinkel=25, schraegungswinkel=tooth_angle, optimiert=true);
           shaft();
         }
